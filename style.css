@@ -1,0 +1,257 @@
+/* ===============================
+   RESET & BASE
+================================ */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #222;
+    line-height: 1.6;
+}
+
+/* ===============================
+   HEADER (CENTER TITLE + LEFT LOGO)
+================================ */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem;
+}
+
+#logoMasjid {
+    position: absolute;
+    left: 1rem;
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    justify-self: start;
+    display: none;
+}
+
+.header-title {
+    text-align: center;
+    justify-self: center;
+}
+
+header h1 {
+    font-weight: bold;
+}
+
+header h3 {
+    font-weight: 400;
+    color: #555;
+    margin-top: 0.25rem;
+}
+
+/* ===============================
+   MAIN LAYOUT
+================================ */
+main {
+    padding: 1rem;
+    padding-bottom: 5rem; /* ruang footer */
+}
+
+div > section {
+    background: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* ===============================
+   RINGKASAN
+================================ */
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 260px;
+}
+
+.chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#filterPeriode {
+    display: flex;
+    gap: 4px;
+}
+/* ===============================
+   FORM
+================================ */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+label {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+input,
+select {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.9rem;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #888;
+}
+
+button {
+    margin-top: 0.75rem;
+    padding: 0.6rem;
+    border-radius: 6px;
+    border: none;
+    background: #333;
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #000;
+}
+
+/* ===============================
+   TABLE
+================================ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+}
+
+thead {
+    background: #eee;
+}
+
+th,
+td {
+    padding: 0.5rem;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+tbody tr:hover {
+    background: #f9f9f9;
+}
+
+td button {
+    background: transparent;
+    color: #000;
+    border: 1px solid #ccc;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+td button:hover {
+    background: #eee;
+}
+
+td:nth-child(5),
+th:nth-child(5) {
+    text-align: right;
+}
+
+/* ===============================
+   PROFIL
+================================ */
+
+#pencadangan {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#pencadangan button,
+#pencadangan input[type="file"] {
+    flex: 1 1 200px;
+    min-width: 120px;
+}
+
+#btnHapusData {
+    width: 100%;
+    background: #d32f2f;
+    color: #fff;
+}
+
+#btnHapusData:hover {
+    background: #b71c1c;
+}
+
+/* ===============================
+   FOOTER NAVIGATION
+================================ */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-top: 1px solid #ddd;
+}
+
+footer nav {
+    display: flex;
+}
+
+footer button {
+    flex: 1;
+    background: transparent;
+    color: #222;
+    border: none;
+    padding: 0.75rem;
+    margin: 0px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+footer button:hover {
+    background: #eee;
+}
+
+/* ===============================
+   VISIBILITY CONTROL
+================================ */
+#beranda,
+#transaksi,
+#laporan,
+#profil {
+    display: none;
+}
+
+/* Default view */
+#beranda {
+    display: block;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (min-width: 768px) {
+    main {
+        max-width: 720px;
+        margin: auto;
+    }
+}

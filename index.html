@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Keuangan Masjid</title>
+    <link rel="stylesheet" href="style.css">
+    <link id="favicon" rel="icon" href="image/png">
+</head>
+
+<body>
+    <header class="header">
+        <img id="logoMasjid" alt="Logo Masjid">
+        <div class="header-title">
+            <h1 id="judul">Laporan Keuangan</h1>
+            <h3 id="judulMasjid"></h3>
+        </div>
+    </header>
+    <main>
+        <div id="beranda" class="dashboard">
+            <section>
+                <h2 id="bulanIni">Bulan Ini</h2>
+                <p>Saldo: <strong id="saldoBulanIni">Rp</strong></p>
+                <p>Pemasukan: <span id="pemasukanBulanIni">Rp</span></p>
+                <p>Pengeluaran: <span id="pengeluaranBulanIni">Rp</span></p>
+            </section>
+
+            <section>
+                <h2 id="tahunIni">Tahun Ini</h2>
+                <p>Saldo: <strong id="saldoTahunIni">Rp</strong></p>
+                <p>Pemasukan: <span id="pemasukanTahunIni">Rp</span></p>
+                <p>Pengeluaran: <span id="pengeluaranTahunIni">Rp</span></p>
+            </section>
+
+            <section>
+                <h2>Grafik Keuangan</h2>
+
+                <label>Periode</label>
+                <div id="filterPeriode">
+                <select id="tipePeriode">
+                    <option value="bulan">Bulan</option>
+                    <option value="tahun">Tahun</option>
+                </select>
+
+                <div id="rangeBulan">
+                    <input type="month" id="bulanAwal">
+                    <input type="month" id="bulanAkhir">
+                </div>
+
+                <div id="rangeTahun" hidden>
+                    <input type="number" id="tahunAwal">
+                    <input type="number" id="tahunAkhir">
+                </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="chartKeuangan"></canvas>
+                </div>
+            </section>
+        </div>
+
+        <div id="transaksi">
+            <section>
+                <h2>Transaksi</h2>
+                <form id="formulirTransaksi">
+                    <label for="jenis">Jenis</label>
+                    <select name="jenis" id="jenis" required>
+                        <option value="pemasukan">Pemasukan</option>
+                        <option value="pengeluaran">Pengeluaran</option>
+                    </select>
+                    <label for="tanggal">Tanggal</label>
+                    <input type="date" name="tanggal" id="tanggal" required>
+                    <label for="keterangan">Keterangan</label>
+                    <input type="text" name="keterangan" id="keterangan" required>
+                    <label for="nominal">Nominal</label>
+                    <input type="number" name="nominal" id="nominal" required>
+                    <button type="submit">Simpan</button>
+                </form>
+            </section>
+            <section>
+                <h2>Riwayat Transaksi</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Jenis</th>
+                            <th>Tanggal</th>
+                            <th>Keterangan</th>
+                            <th>Nominal</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelTransaksiTerakhir"></tbody>
+                </table>
+                <button type="button" id="btnLihatLaporan" onclick="bukaLaporan()">Lihat Selengkapnya</button>
+            </section>
+        </div>
+
+        <div id="laporan">
+            <section>
+                <h2>Laporan</h2>
+                <label for="bulan">Bulan</label>
+                <input type="month" name="bulan" id="bulan">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Jenis</th>
+                            <th>Tanggal</th>
+                            <th>Keterangan</th>
+                            <th>Nominal</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelLaporan"></tbody>
+                </table>
+                <button type="button" id="btnUnduhLaporan" onclick="unduhLaporanPDF()">Unduh Laporan</button>
+            </section>
+        </div>
+
+        <div id="profil">
+            <section>
+                <h2>Profil</h2>
+                <label for="namaMasjid">Nama Masjid</label>
+                <input type="text" name="namaMasjid" id="namaMasjid">
+                <br>
+                <label>Logo Masjid</label>
+                <input type="file" id="uploadLogo" accept="image/*" hidden>
+                <button type="button" id="btnUploadLogo" style="margin: 10px;">Pilih Logo</button>
+                <span id="namaFileLogo" style="font-size:0.85rem;color:#555;"></span>
+            </section>
+            
+            <section>
+                <h2 id="pencadangan">Pencadangan</h2>
+                <label>Periode</label>
+                <select id="csvPeriodeTipe" style="margin: 5px;">
+                    <option value="semua">Semua</option>
+                    <option value="bulan">Bulan</option>
+                    <option value="tahun">Tahun</option>
+                </select>
+                <input type="month" id="csvBulan">
+                <input type="number" id="csvTahun" hidden>
+                <br>
+                <button id="btnDownloadCsv">Download CSV</button>
+                <button id="btnDownloadTemplateCsv">Download Format</button>
+                <input type="file" id="uploadCsv" accept=".csv" hidden>
+                <button type="button" id="btnUploadCsv">Upload CSV</button>
+                <span id="namaFileCsv" style="font-size:0.85rem;color:#555;"></span>
+            </section>
+            <button id="btnHapusData">Hapus Data</button>
+        </div>
+    </main>
+    <footer>
+        <nav>
+            <button id="btnBeranda">Beranda</button>
+            <button id="btnTransaksi">Transaksi</button>
+            <button id="btnLaporan">Laporan</button>
+            <button id="btnProfil">Profil</button>
+        </nav>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.28/dist/jspdf.plugin.autotable.min.js"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>

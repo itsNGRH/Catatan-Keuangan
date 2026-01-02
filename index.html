@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan Keuangan Masjid</title>
     <link rel="stylesheet" href="style.css">
-    <link id="favicon" rel="icon" href="image/png">
+    <link id="favicon" rel="icon" href="https://raw.githubusercontent.com/itsNGRH/Laporan-Keuangan-Masjid/main/Laporan%20Keuangan%20Masjid.png">
 </head>
 
 <body>
@@ -80,7 +80,7 @@
                     <label for="keterangan">Keterangan</label>
                     <input type="text" name="keterangan" id="keterangan" required>
                     <label for="nominal">Nominal</label>
-                    <input type="number" name="nominal" id="nominal" required>
+                    <input type="text" name="nominal" id="nominal" inputmode="numeric" autocomplete="off" required>
                     <button type="submit">Simpan</button>
                 </form>
             </section>
@@ -110,6 +110,7 @@
                 <h2>Laporan</h2>
                 <label for="bulan">Bulan</label>
                 <input type="month" name="bulan" id="bulan">
+
                 <div id="tableContainer">
                     <table>
                         <thead>
@@ -152,10 +153,10 @@
                 <input type="month" id="csvBulan">
                 <input type="number" id="csvTahun" hidden>
                 <br>
-                <button id="btnDownloadCsv">Download CSV</button>
-                <button id="btnDownloadTemplateCsv">Download Format</button>
+                <button id="btnDownloadCsv">Unduh CSV</button>
+                <button id="btnDownloadTemplateCsv">Unduh Format</button>
                 <input type="file" id="uploadCsv" accept=".csv" hidden>
-                <button type="button" id="btnUploadCsv">Upload CSV</button>
+                <button type="button" id="btnUploadCsv">Unggah CSV</button>
                 <span id="namaFileCsv" style="font-size:0.85rem;color:#555;"></span>
             </section>
             <button id="btnHapusData">Hapus Data</button>

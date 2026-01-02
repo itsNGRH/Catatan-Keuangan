@@ -27,6 +27,18 @@ function bukaLaporan() {
     tutupSemua();
     renderLaporan();
     halaman.laporan.style.display = 'block';
+    const now = new Date();
+    const bulanNow = now.toISOString().slice(0, 7);
+    const tahunNow = now.getFullYear();
+
+    tipePeriodeLaporan.value = 'bulan';
+
+    bulanLaporanAwal.value = bulanNow;
+    bulanLaporanAkhir.value = bulanNow;
+
+    tahunLaporanAwal.value = tahunNow;
+    tahunLaporanAkhir.value = tahunNow;
+
 }
 
 function bukaProfil() {
@@ -59,7 +71,7 @@ function simpanTransaksi() {
         .trim();
 
     const nominal = Number(
-        document.getElementById('nominal').value
+        document.getElementById('nominal').value.replace(/\./g, '')
     );
 
     if (!jenis || !keterangan || nominal <= 0) {
@@ -313,6 +325,7 @@ function renderLaporan() {
         tbody.appendChild(row);
     });
 }
+
 
 document
     .getElementById('bulan')
@@ -575,7 +588,6 @@ uploadLogoInput.addEventListener('change', function () {
         logoImg.src = base64;
         logoImg.style.display = 'block';
         namaFileLogo.textContent = file.name;
-        setFaviconFromLogo(savedLogo);
     };
 
     reader.readAsDataURL(file);
@@ -587,7 +599,6 @@ function loadLogoMasjid() {
     if (savedLogo) {
         logoImg.src = savedLogo;
         logoImg.style.display = 'block';
-        setFaviconFromLogo(savedLogo);
     } else {
         logoImg.style.display = 'none';
     }
@@ -700,7 +711,6 @@ function hapusSemuaData() {
     hitungRingkasan();
     renderLaporan();
     loadLogoMasjid();
-    resetFavicon();
 
     document.getElementById('namaMasjid').value = '';
     document.getElementById('judulMasjid').textContent = '';
@@ -1087,27 +1097,6 @@ function getNamaBulanIndonesiaDariValue(bulanValue) {
     return `${namaBulan[bulan - 1]}-${tahun}`;
 }
 
-function setFaviconFromLogo(base64) {
-    let favicon = document.getElementById('favicon');
-
-    if (!favicon) {
-        favicon = document.createElement('link');
-        favicon.id = 'favicon';
-        favicon.rel = 'icon';
-        favicon.type = 'image/png';
-        document.head.appendChild(favicon);
-    }
-
-    favicon.href = base64;
-}
-
-function resetFavicon() {
-    const favicon = document.getElementById('favicon');
-    if (favicon) {
-        favicon.href = '';
-    }
-}
-
 function updateRingkasanGrafik(pemasukan, pengeluaran) {
     const saldo = pemasukan - pengeluaran;
 
@@ -1203,6 +1192,25 @@ function updateRingkasanGrafikTahunan(tahunAwal, tahunAkhir) {
     document.getElementById('saldoRingkasan').textContent =
         formatRupiah(pemasukan - pengeluaran);
 }
+
+const inputNominal = document.getElementById('nominal');
+
+inputNominal.addEventListener('input', function () {
+    const posisiKursor = this.selectionStart;
+    const nilaiLama = this.value;
+
+    this.value = formatNominalInput(this.value);
+
+    const selisih = this.value.length - nilaiLama.length;
+    this.setSelectionRange(posisiKursor + selisih, posisiKursor + selisih);
+});
+
+function formatNominalInput(value) {
+    const angka = value.replace(/\D/g, '');
+    if (!angka) return '';
+    return angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
 
 loadLogoMasjid();
 ambilDariStorage();

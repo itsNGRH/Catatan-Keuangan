@@ -33,29 +33,36 @@
             </section>
 
             <section>
-                <h2>Grafik Keuangan</h2>
+                <h2 id="grafik">Grafik Keuangan</h2>
 
                 <label>Periode</label>
                 <div id="filterPeriode">
-                <select id="tipePeriode">
-                    <option value="bulan">Bulan</option>
-                    <option value="tahun">Tahun</option>
-                </select>
+                    <select id="tipePeriode">
+                        <option value="semua">Semua</option>
+                        <option value="bulan">Bulan</option>
+                        <option value="tahun">Tahun</option>
+                    </select>
 
-                <div id="rangeBulan">
-                    <input type="month" id="bulanAwal">
-                    <input type="month" id="bulanAkhir">
-                </div>
+                    <div id="rangeBulan">
+                        <input type="month" id="bulanAwal">
+                        <input type="month" id="bulanAkhir">
+                    </div>
 
-                <div id="rangeTahun" hidden>
-                    <input type="number" id="tahunAwal">
-                    <input type="number" id="tahunAkhir">
-                </div>
+                    <div id="rangeTahun" hidden>
+                        <input type="number" id="tahunAwal">
+                        <input type="number" id="tahunAkhir">
+                    </div>
                 </div>
 
                 <div class="chart-container">
                     <canvas id="chartKeuangan"></canvas>
                 </div>
+            </section>
+            <section>
+                <h2 id="ringkasan">Ringkasan Grafik</h2>
+                <p>Saldo: <strong id="saldoRingkasan">Rp</strong></p>
+                <p>Pemasukan: <span id="pemasukanRingkasan">Rp</span></p>
+                <p>Pengeluaran: <span id="pengeluaranRingkasan">Rp</span></p>
             </section>
         </div>
 
@@ -79,19 +86,21 @@
             </section>
             <section>
                 <h2>Riwayat Transaksi</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Jenis</th>
-                            <th>Tanggal</th>
-                            <th>Keterangan</th>
-                            <th>Nominal</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabelTransaksiTerakhir"></tbody>
-                </table>
+                <div id="tableContainer">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Jenis</th>
+                                <th>Tanggal</th>
+                                <th>Keterangan</th>
+                                <th>Nominal</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelTransaksiTerakhir"></tbody>
+                    </table>
+                </div>
                 <button type="button" id="btnLihatLaporan" onclick="bukaLaporan()">Lihat Selengkapnya</button>
             </section>
         </div>
@@ -101,19 +110,21 @@
                 <h2>Laporan</h2>
                 <label for="bulan">Bulan</label>
                 <input type="month" name="bulan" id="bulan">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Jenis</th>
-                            <th>Tanggal</th>
-                            <th>Keterangan</th>
-                            <th>Nominal</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabelLaporan"></tbody>
-                </table>
+                <div id="tableContainer">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Jenis</th>
+                                <th>Tanggal</th>
+                                <th>Keterangan</th>
+                                <th>Nominal</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelLaporan"></tbody>
+                    </table>
+                </div>
                 <button type="button" id="btnUnduhLaporan" onclick="unduhLaporanPDF()">Unduh Laporan</button>
             </section>
         </div>

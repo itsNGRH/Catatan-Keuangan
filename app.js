@@ -775,33 +775,51 @@ function updateGrafikBulanan() {
     if (!bulanAwal || !bulanAkhir) return;
 
     const data = getDataGrafikBulanan(bulanAwal, bulanAkhir);
-
     const labels = buatLabelGrafikBulanan(data);
 
     const keys = Object.keys(data).sort();
-    const pemasukan = keys.map(k => data[k].pemasukan);
-    const pengeluaran = keys.map(k => data[k].pengeluaran);
+
+    let totalPemasukan = 0;
+    let totalPengeluaran = 0;
+
+    const pemasukan = keys.map(k => {
+        totalPemasukan += data[k].pemasukan;
+        return data[k].pemasukan;
+    });
+
+    const pengeluaran = keys.map(k => {
+        totalPengeluaran += data[k].pengeluaran;
+        return data[k].pengeluaran;
+    });
 
     renderGrafik(labels, pemasukan, pengeluaran);
+    updateRingkasanGrafik(totalPemasukan, totalPengeluaran);
 }
 
 function updateGrafikTahunan() {
-    const tahunAwal = Number(
-        document.getElementById('tahunAwal').value
-    );
-    const tahunAkhir = Number(
-        document.getElementById('tahunAkhir').value
-    );
+    const tahunAwal = Number(document.getElementById('tahunAwal').value);
+    const tahunAkhir = Number(document.getElementById('tahunAkhir').value);
 
     if (!tahunAwal || !tahunAkhir) return;
 
     const data = getDataGrafikTahunan(tahunAwal, tahunAkhir);
-
     const labels = Object.keys(data).sort();
-    const pemasukan = labels.map(l => data[l].pemasukan);
-    const pengeluaran = labels.map(l => data[l].pengeluaran);
+
+    let totalPemasukan = 0;
+    let totalPengeluaran = 0;
+
+    const pemasukan = labels.map(l => {
+        totalPemasukan += data[l].pemasukan;
+        return data[l].pemasukan;
+    });
+
+    const pengeluaran = labels.map(l => {
+        totalPengeluaran += data[l].pengeluaran;
+        return data[l].pengeluaran;
+    });
 
     renderGrafik(labels, pemasukan, pengeluaran);
+    updateRingkasanGrafik(totalPemasukan, totalPengeluaran);
 }
 
 const tipePeriode = document.getElementById('tipePeriode');
@@ -809,10 +827,13 @@ const rangeBulan = document.getElementById('rangeBulan');
 const rangeTahun = document.getElementById('rangeTahun');
 
 tipePeriode.addEventListener('change', function () {
-    if (this.value === 'bulan') {
+    if (this.value === 'semua') {
+        updateGrafikSemua();
+    } else if (this.value === 'bulan') {
         rangeBulan.hidden = false;
         rangeTahun.hidden = true;
         updateGrafikBulanan();
+
     } else {
         rangeBulan.hidden = true;
         rangeTahun.hidden = false;
@@ -1087,6 +1108,102 @@ function resetFavicon() {
     }
 }
 
+function updateRingkasanGrafik(pemasukan, pengeluaran) {
+    const saldo = pemasukan - pengeluaran;
+
+    document.getElementById('pemasukanRingkasan').textContent =
+        formatRupiah(pemasukan);
+
+    document.getElementById('pengeluaranRingkasan').textContent =
+        formatRupiah(pengeluaran);
+
+    document.getElementById('saldoRingkasan').textContent =
+        formatRupiah(saldo);
+}
+
+function getRentangTransaksi() {
+    if (daftarTransaksi.length === 0) return null;
+
+    const tanggal = daftarTransaksi
+        .map(t => new Date(t.tanggal))
+        .sort((a, b) => a - b);
+
+    return {
+        awal: tanggal[0],
+        akhir: tanggal[tanggal.length - 1]
+    };
+}
+
+function updateGrafikSemua() {
+    const rentang = getRentangTransaksi();
+    if (!rentang) return;
+
+    const tahunAwal = rentang.awal.getFullYear();
+    const tahunAkhir = rentang.akhir.getFullYear();
+
+    if (tahunAwal === tahunAkhir) {
+        rangeBulan.hidden = false;
+        rangeTahun.hidden = true;
+
+        const bulanAwal = rentang.awal.toISOString().slice(0, 7);
+        const bulanAkhir = rentang.akhir.toISOString().slice(0, 7);
+
+        document.getElementById('bulanAwal').value = bulanAwal;
+        document.getElementById('bulanAkhir').value = bulanAkhir;
+
+        updateGrafikBulanan();
+        updateRingkasanGrafikBulanan(bulanAwal, bulanAkhir);
+    }
+    else {
+        rangeBulan.hidden = true;
+        rangeTahun.hidden = false;
+
+        document.getElementById('tahunAwal').value = tahunAwal;
+        document.getElementById('tahunAkhir').value = tahunAkhir;
+
+        updateGrafikTahunan();
+        updateRingkasanGrafikTahunan(tahunAwal, tahunAkhir);
+    }
+}
+
+function updateRingkasanGrafikBulanan(bulanAwal, bulanAkhir) {
+    const data = getDataGrafikBulanan(bulanAwal, bulanAkhir);
+
+    let pemasukan = 0;
+    let pengeluaran = 0;
+
+    Object.values(data).forEach(v => {
+        pemasukan += v.pemasukan;
+        pengeluaran += v.pengeluaran;
+    });
+
+    document.getElementById('pemasukanRingkasan').textContent =
+        formatRupiah(pemasukan);
+    document.getElementById('pengeluaranRingkasan').textContent =
+        formatRupiah(pengeluaran);
+    document.getElementById('saldoRingkasan').textContent =
+        formatRupiah(pemasukan - pengeluaran);
+}
+
+function updateRingkasanGrafikTahunan(tahunAwal, tahunAkhir) {
+    const data = getDataGrafikTahunan(tahunAwal, tahunAkhir);
+
+    let pemasukan = 0;
+    let pengeluaran = 0;
+
+    Object.values(data).forEach(v => {
+        pemasukan += v.pemasukan;
+        pengeluaran += v.pengeluaran;
+    });
+
+    document.getElementById('pemasukanRingkasan').textContent =
+        formatRupiah(pemasukan);
+    document.getElementById('pengeluaranRingkasan').textContent =
+        formatRupiah(pengeluaran);
+    document.getElementById('saldoRingkasan').textContent =
+        formatRupiah(pemasukan - pengeluaran);
+}
+
 loadLogoMasjid();
 ambilDariStorage();
 ambilProfil();
@@ -1096,16 +1213,5 @@ setDefaultBulanLaporan();
 renderLaporan();
 bukaBeranda();
 
-(function setDefaultGrafik() {
-    const now = new Date();
-    const bulan = now.toISOString().slice(0, 7);
-    const tahun = now.getFullYear();
-
-    document.getElementById('bulanAwal').value = bulan;
-    document.getElementById('bulanAkhir').value = bulan;
-
-    document.getElementById('tahunAwal').value = tahun;
-    document.getElementById('tahunAkhir').value = tahun;
-
-    updateGrafikBulanan();
-})();
+tipePeriode.value = 'semua';
+updateGrafikSemua();

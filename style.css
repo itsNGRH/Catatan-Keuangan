@@ -132,11 +132,16 @@ button:hover {
 /* ===============================
    TABLE
 ================================ */
+#tableContainer {
+    overflow-x: auto;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 0.75rem;
     font-size: 0.85rem;
+    white-space: nowrap;
 }
 
 thead {

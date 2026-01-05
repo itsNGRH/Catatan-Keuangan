@@ -346,7 +346,7 @@ function hapusTransaksi(id) {
     renderTransaksiTerakhir();
 }
 
-const STORAGE_KEY = 'laporan_keuangan_masjid';
+const STORAGE_KEY = 'laporan_keuangan_organisasi';
 
 function simpanKeStorage() {
     localStorage.setItem(
@@ -371,28 +371,28 @@ function ambilDariStorage() {
     }
 }
 
-const PROFIL_KEY = 'profil_masjid';
+const PROFIL_KEY = 'profil_organisasi';
 
-let profilMasjid = {
-    namaMasjid: ''
+let profilOrganisasi = {
+    namaOrganisasi: ''
 };
 
 function simpanProfil() {
-    const namaMasjid = document
-        .getElementById('namaMasjid')
+    const namaOrganisasi = document
+        .getElementById('namaOrganisasi')
         .value
         .trim();
 
-    if (!namaMasjid) {
-        alert('Nama masjid tidak boleh kosong');
+    if (!namaOrganisasi) {
+        alert('Nama organisasi tidak boleh kosong');
         return;
     }
 
-    profilMasjid.namaMasjid = namaMasjid;
+    profilOrganisasi.namaOrganisasi = namaOrganisasi;
 
     localStorage.setItem(
         PROFIL_KEY,
-        JSON.stringify(profilMasjid)
+        JSON.stringify(profilOrganisasi)
     );
 
     renderHeader();
@@ -404,26 +404,26 @@ function ambilProfil() {
     if (!data) return;
 
     try {
-        profilMasjid = JSON.parse(data);
+        profilOrganisasi = JSON.parse(data);
     } catch {
-        profilMasjid = { namaMasjid: '' };
+        profilOrganisasi = { namaOrganisasi: '' };
     }
 }
 
 function renderHeader() {
-    const judulMasjid = document.getElementById('judulMasjid');
+    const judulOrganisasi = document.getElementById('judulOrganisasi');
 
-    judulMasjid.textContent = profilMasjid.namaMasjid
-        ? profilMasjid.namaMasjid
+    judulOrganisasi.textContent = profilOrganisasi.namaOrganisasi
+        ? profilOrganisasi.namaOrganisasi
         : '';
 }
 
 document
-    .getElementById('namaMasjid')
+    .getElementById('namaOrganisasi')
     .addEventListener('change', simpanProfil);
 
-document.getElementById('namaMasjid').value =
-    profilMasjid.namaMasjid || '';
+document.getElementById('namaOrganisasi').value =
+    profilOrganisasi.namaOrganisasi || '';
 
 function downloadCSV() {
     if (daftarTransaksi.length === 0) {
@@ -464,7 +464,7 @@ function downloadCSV() {
     const a = document.createElement('a');
     a.href = url;
 
-    const namaMasjidFile = slugifyNamaMasjid(profilMasjid.namaMasjid);
+    const namaOrganisasiFile = slugifyNamaOrganisasi(profilOrganisasi.namaOrganisasi);
 
     let periodeFile = 'Lengkap';
 
@@ -475,7 +475,7 @@ function downloadCSV() {
     }
 
     a.download =
-        `Pencadangan-Laporan-Keuangan-${namaMasjidFile}-${periodeFile}.csv`;
+        `Pencadangan-Laporan-Keuangan-${namaOrganisasiFile}-${periodeFile}.csv`;
 
     a.click();
     URL.revokeObjectURL(url);
@@ -558,11 +558,11 @@ document
     .getElementById('btnDownloadTemplateCsv')
     .addEventListener('click', downloadTemplateCSV);
 
-const STORAGE_LOGO_KEY = 'logoMasjid';
+const STORAGE_LOGO_KEY = 'logoOrganisasi';
 
 const uploadLogoInput = document.getElementById('uploadLogo');
 const btnUploadLogo = document.getElementById('btnUploadLogo');
-const logoImg = document.getElementById('logoMasjid');
+const logoImg = document.getElementById('logoOrganisasi');
 const namaFileLogo = document.getElementById('namaFileLogo');
 
 btnUploadLogo.addEventListener('click', () => {
@@ -593,7 +593,7 @@ uploadLogoInput.addEventListener('change', function () {
     reader.readAsDataURL(file);
 });
 
-function loadLogoMasjid() {
+function loadlogoOrganisasi() {
     const savedLogo = localStorage.getItem(STORAGE_LOGO_KEY);
 
     if (savedLogo) {
@@ -695,8 +695,8 @@ function hapusSemuaData() {
     const konfirmasi = confirm(
         'SEMUA data akan dihapus permanen.\n\n' +
         '• Transaksi\n' +
-        '• Nama masjid\n' +
-        '• Logo masjid\n\n' +
+        '• Nama organisasi\n' +
+        '• Logo organisasi\n\n' +
         'Lanjutkan?'
     );
 
@@ -710,12 +710,12 @@ function hapusSemuaData() {
 
     hitungRingkasan();
     renderLaporan();
-    loadLogoMasjid();
+    loadlogoOrganisasi();
 
-    document.getElementById('namaMasjid').value = '';
-    document.getElementById('judulMasjid').textContent = '';
+    document.getElementById('namaOrganisasi').value = '';
+    document.getElementById('judulOrganisasi').textContent = '';
 
-    const logoImg = document.getElementById('logoMasjid');
+    const logoImg = document.getElementById('logoOrganisasi');
     logoImg.src = '';
     logoImg.style.display = 'none';
 
@@ -948,7 +948,7 @@ function unduhLaporanPDF() {
     doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
     doc.text(
-        profilMasjid.namaMasjid || '',
+        profilOrganisasi.namaOrganisasi || '',
         105,
         22,
         { align: 'center' }
@@ -1026,11 +1026,11 @@ function unduhLaporanPDF() {
 
     // ================= SIMPAN =================
     
-    const namaMasjidFile = slugifyNamaMasjid(profilMasjid.namaMasjid);
+    const namaOrganisasiFile = slugifyNamaOrganisasi(profilOrganisasi.namaOrganisasi);
 const periodeFile = getNamaBulanIndonesiaDariValue(bulan);
 
 doc.save(
-    `Laporan-Keuangan-${namaMasjidFile}-${periodeFile}.pdf`
+    `Laporan-Keuangan-${namaOrganisasiFile}-${periodeFile}.pdf`
 );
 
 }
@@ -1080,8 +1080,8 @@ function formatJenis(jenis) {
     return jenis.charAt(0).toUpperCase() + jenis.slice(1);
 }
 
-function slugifyNamaMasjid(nama) {
-    return (nama || 'Masjid')
+function slugifyNamaOrganisasi(nama) {
+    return (nama || 'Organisasi')
         .trim()
         .replace(/\s+/g, '-')
         .replace(/[^a-zA-Z0-9-_]/g, '');
@@ -1212,7 +1212,7 @@ function formatNominalInput(value) {
 }
 
 
-loadLogoMasjid();
+loadlogoOrganisasi();
 ambilDariStorage();
 ambilProfil();
 renderHeader();

@@ -1,7 +1,7 @@
 const halaman = {
     beranda: document.getElementById('beranda'),
     transaksi: document.getElementById('transaksi'),
-    laporan: document.getElementById('laporan'),
+    catatan: document.getElementById('catatan'),
     profil: document.getElementById('profil')
 };
 
@@ -23,21 +23,21 @@ function bukaTransaksi() {
     renderTransaksiTerakhir();
 }
 
-function bukaLaporan() {
+function bukaCatatan() {
     tutupSemua();
-    renderLaporan();
-    halaman.laporan.style.display = 'block';
+    renderCatatan();
+    halaman.catatan.style.display = 'block';
     const now = new Date();
     const bulanNow = now.toISOString().slice(0, 7);
     const tahunNow = now.getFullYear();
 
-    tipePeriodeLaporan.value = 'bulan';
+    tipePeriodeCatatan.value = 'bulan';
 
-    bulanLaporanAwal.value = bulanNow;
-    bulanLaporanAkhir.value = bulanNow;
+    bulanCatatanAwal.value = bulanNow;
+    bulanCatatanAkhir.value = bulanNow;
 
-    tahunLaporanAwal.value = tahunNow;
-    tahunLaporanAkhir.value = tahunNow;
+    tahunCatatanAwal.value = tahunNow;
+    tahunCatatanAkhir.value = tahunNow;
 
 }
 
@@ -52,8 +52,8 @@ document.getElementById('btnBeranda')
 document.getElementById('btnTransaksi')
     .addEventListener('click', bukaTransaksi);
 
-document.getElementById('btnLaporan')
-    .addEventListener('click', bukaLaporan);
+document.getElementById('btnCatatan')
+    .addEventListener('click', bukaCatatan);
 
 document.getElementById('btnProfil')
     .addEventListener('click', bukaProfil);
@@ -95,8 +95,9 @@ function simpanTransaksi() {
         getTanggalHariIni();
 
     hitungRingkasan();
-    renderLaporan();
+    renderCatatan();
     simpanKeStorage();
+    updateGrafikSemua();
 }
 
 document
@@ -169,7 +170,7 @@ function getTanggalHariIni() {
     return now.toISOString().split('T')[0];
 }
 
-function setDefaultBulanLaporan() {
+function setDefaultBulanCatatan() {
     const bulanInput = document.getElementById('bulan');
     const now = new Date();
 
@@ -273,8 +274,8 @@ function getDataGrafikTahunan(tahunAwal, tahunAkhir) {
     return hasil;
 }
 
-function renderLaporan() {
-    const tbody = document.getElementById('tabelLaporan');
+function renderCatatan() {
+    const tbody = document.getElementById('tabelCatatan');
     const filterBulan = document.getElementById('bulan').value;
 
     tbody.innerHTML = '';
@@ -329,7 +330,7 @@ function renderLaporan() {
 
 document
     .getElementById('bulan')
-    .addEventListener('change', renderLaporan);
+    .addEventListener('change', renderCatatan);
 
 function hapusTransaksi(id) {
     const konfirmasi = confirm('Yakin ingin menghapus transaksi ini?');
@@ -342,11 +343,11 @@ function hapusTransaksi(id) {
 
     simpanKeStorage();
     hitungRingkasan();
-    renderLaporan();
+    renderCatatan();
     renderTransaksiTerakhir();
 }
 
-const STORAGE_KEY = 'laporan_keuangan_organisasi';
+const STORAGE_KEY = 'catatan_keuangan_organisasi';
 
 function simpanKeStorage() {
     localStorage.setItem(
@@ -475,7 +476,7 @@ function downloadCSV() {
     }
 
     a.download =
-        `Pencadangan-Laporan-Keuangan-${namaOrganisasiFile}-${periodeFile}.csv`;
+        `Pencadangan-Catatan-Keuangan-${namaOrganisasiFile}-${periodeFile}.csv`;
 
     a.click();
     URL.revokeObjectURL(url);
@@ -524,7 +525,7 @@ function downloadTemplateCSV() {
 
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'format-laporan-keuangan.csv';
+    a.download = 'format-catatan-keuangan.csv';
     a.click();
 
     URL.revokeObjectURL(url);
@@ -664,7 +665,7 @@ function uploadCSV(file) {
 
             simpanKeStorage();
             hitungRingkasan();
-            renderLaporan();
+            renderCatatan();
 
             alert(`${transaksiBaru.length} transaksi berhasil ditambahkan`);
         } catch (error) {
@@ -709,7 +710,7 @@ function hapusSemuaData() {
     localStorage.removeItem(STORAGE_KEY);
 
     hitungRingkasan();
-    renderLaporan();
+    renderCatatan();
     loadlogoOrganisasi();
 
     document.getElementById('namaOrganisasi').value = '';
@@ -910,12 +911,12 @@ function renderTransaksiTerakhir() {
     });
 }
 
-function unduhLaporanPDF() {
+function unduhCatatanPDF() {
     
     const bulan = document.getElementById('bulan').value;
 
     if (!bulan) {
-        alert('Pilih bulan laporan terlebih dahulu');
+        alert('Pilih bulan catatan terlebih dahulu');
         return;
     }
 
@@ -943,7 +944,7 @@ function unduhLaporanPDF() {
 
     doc.setFontSize(14);
     doc.setFont('helvetica', 'bold');
-    doc.text('LAPORAN KEUANGAN', 105, 15, { align: 'center' });
+    doc.text('CATATAN KEUANGAN', 105, 15, { align: 'center' });
 
     doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
@@ -1030,7 +1031,7 @@ function unduhLaporanPDF() {
 const periodeFile = getNamaBulanIndonesiaDariValue(bulan);
 
 doc.save(
-    `Laporan-Keuangan-${namaOrganisasiFile}-${periodeFile}.pdf`
+    `Catatan-Keuangan-${namaOrganisasiFile}-${periodeFile}.pdf`
 );
 
 }
@@ -1217,8 +1218,8 @@ ambilDariStorage();
 ambilProfil();
 renderHeader();
 hitungRingkasan();
-setDefaultBulanLaporan();
-renderLaporan();
+setDefaultBulanCatatan();
+renderCatatan();
 bukaBeranda();
 
 tipePeriode.value = 'semua';

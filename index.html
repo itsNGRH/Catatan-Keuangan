@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Keuangan</title>
+    <title>Catatan Keuangan</title>
     <link rel="stylesheet" href="style.css">
-    <link id="favicon" rel="icon" href="https://raw.githubusercontent.com/itsNGRH/Laporan-Keuangan-Organisasi/main/Laporan%20Keuangan%20Organisasi.png">
+    <link id="favicon" rel="icon" href="https://raw.githubusercontent.com/itsNGRH/Catatan-Keuangan/main/Catatan%20Keuangan.png">
 </head>
 
 <body>
     <header class="header">
         <img id="logoOrganisasi" alt="Logo Organisasi">
         <div class="header-title">
-            <h1 id="judul">Laporan Keuangan</h1>
+            <h1 id="judul">Catatan Keuangan</h1>
             <h3 id="judulOrganisasi"></h3>
         </div>
     </header>
@@ -20,6 +20,7 @@
         <div id="beranda" class="dashboard">
             <section>
                 <h2 id="bulanIni">Bulan Ini</h2>
+                <br>
                 <p>Saldo: <strong id="saldoBulanIni">Rp</strong></p>
                 <p>Pemasukan: <span id="pemasukanBulanIni">Rp</span></p>
                 <p>Pengeluaran: <span id="pengeluaranBulanIni">Rp</span></p>
@@ -27,6 +28,7 @@
 
             <section>
                 <h2 id="tahunIni">Tahun Ini</h2>
+                <br>
                 <p>Saldo: <strong id="saldoTahunIni">Rp</strong></p>
                 <p>Pemasukan: <span id="pemasukanTahunIni">Rp</span></p>
                 <p>Pengeluaran: <span id="pengeluaranTahunIni">Rp</span></p>
@@ -34,8 +36,7 @@
 
             <section>
                 <h2 id="grafik">Grafik Keuangan</h2>
-
-                <label>Periode</label>
+                <br>
                 <div id="filterPeriode">
                     <select id="tipePeriode">
                         <option value="semua">Semua</option>
@@ -60,6 +61,7 @@
             </section>
             <section>
                 <h2 id="ringkasan">Ringkasan Grafik</h2>
+                <br>
                 <p>Saldo: <strong id="saldoRingkasan">Rp</strong></p>
                 <p>Pemasukan: <span id="pemasukanRingkasan">Rp</span></p>
                 <p>Pengeluaran: <span id="pengeluaranRingkasan">Rp</span></p>
@@ -69,6 +71,7 @@
         <div id="transaksi">
             <section>
                 <h2>Transaksi</h2>
+                <br>
                 <form id="formulirTransaksi">
                     <label for="jenis">Jenis</label>
                     <select name="jenis" id="jenis" required>
@@ -81,11 +84,13 @@
                     <input type="text" name="keterangan" id="keterangan" required>
                     <label for="nominal">Nominal</label>
                     <input type="text" name="nominal" id="nominal" inputmode="numeric" autocomplete="off" required>
+                    <br>
                     <button type="submit">Simpan</button>
                 </form>
             </section>
             <section>
                 <h2>Riwayat Transaksi</h2>
+                <br>
                 <div id="tableContainer">
                     <table>
                         <thead>
@@ -101,16 +106,17 @@
                         <tbody id="tabelTransaksiTerakhir"></tbody>
                     </table>
                 </div>
-                <button type="button" id="btnLihatLaporan" onclick="bukaLaporan()">Lihat Selengkapnya</button>
+                <br><button type="button" id="btnLihatCatatan" onclick="bukaCatatan()">Lihat Selengkapnya</button>
             </section>
         </div>
 
-        <div id="laporan">
+        <div id="catatan">
             <section>
-                <h2>Laporan</h2>
+                <h2>Catatan</h2>
+                <br>
                 <label for="bulan">Bulan</label>
                 <input type="month" name="bulan" id="bulan">
-
+                <br><br>
                 <div id="tableContainer">
                     <table>
                         <thead>
@@ -123,16 +129,18 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="tabelLaporan"></tbody>
+                        <tbody id="tabelCatatan"></tbody>
                     </table>
                 </div>
-                <button type="button" id="btnUnduhLaporan" onclick="unduhLaporanPDF()">Unduh Laporan</button>
+                <br>
+                <button type="button" id="btnUnduhCatatan" onclick="unduhCatatanPDF()">Unduh Catatan</button>
             </section>
         </div>
 
         <div id="profil">
             <section>
                 <h2>Profil</h2>
+                <br>
                 <label for="namaOrganisasi">Nama Organisasi</label>
                 <input type="text" name="namaOrganisasi" id="namaOrganisasi">
                 <br>
@@ -144,14 +152,17 @@
             
             <section>
                 <h2 id="pencadangan">Pencadangan</h2>
+                <br>
                 <label>Periode</label>
                 <select id="csvPeriodeTipe" style="margin: 5px;">
                     <option value="semua">Semua</option>
                     <option value="bulan">Bulan</option>
                     <option value="tahun">Tahun</option>
                 </select>
+                <br>
                 <input type="month" id="csvBulan">
                 <input type="number" id="csvTahun" hidden>
+                <br>
                 <br>
                 <button id="btnDownloadCsv">Unduh CSV</button>
                 <button id="btnDownloadTemplateCsv">Unduh Format</button>
@@ -166,7 +177,7 @@
         <nav>
             <button id="btnBeranda">Beranda</button>
             <button id="btnTransaksi">Transaksi</button>
-            <button id="btnLaporan">Laporan</button>
+            <button id="btnCatatan">Catatan</button>
             <button id="btnProfil">Profil</button>
         </nav>
     </footer>

@@ -4,19 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catatan Keuangan</title>
-    <link rel="stylesheet" href="style.css">
+
+    <!-- SEO -->
+    <meta name="description" content="Catatan Keuangan untuk mengelola pemasukan dan pengeluaran organisasi Anda. Lihat ringkasan bulanan, tahunan, grafik keuangan, dan unduh catatan PDF atau CSV.">
+    <meta name="keywords" content="catatan keuangan, keuangan organisasi, pemasukan, pengeluaran, saldo, laporan keuangan, grafik keuangan, unduh CSV, PDF keuangan">
+    <meta name="author" content="NGRH">
+    <meta name="robots" content="index, follow">
+
+    <!-- Favicon -->
     <link id="favicon" rel="icon" href="https://raw.githubusercontent.com/itsNGRH/Catatan-Keuangan/main/Catatan%20Keuangan.png">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Catatan Keuangan",
+        "url": "https://catatan-keuangan-ngrh.vercel.app",
+        "applicationCategory": "FinanceApplication",
+        "description": "Aplikasi untuk mencatat pemasukan dan pengeluaran organisasi dengan grafik dan laporan.",
+        "operatingSystem": "All",
+        "author": {
+            "@type": "Person",
+            "name": "NGRH"
+        }
+    }
+    </script>
 </head>
 
 <body>
-    <header class="header">
+    <header class="header" role="banner">
         <img id="logoOrganisasi" alt="Logo Organisasi">
         <div class="header-title">
             <h1 id="judul">Catatan Keuangan</h1>
             <h3 id="judulOrganisasi"></h3>
         </div>
     </header>
-    <main>
+    <main role="main">
         <div id="beranda" class="dashboard">
             <section>
                 <h2 id="bulanIni">Bulan Ini</h2>
@@ -38,25 +65,25 @@
                 <h2 id="grafik">Grafik Keuangan</h2>
                 <br>
                 <div id="filterPeriode">
-                    <select id="tipePeriode">
+                    <select id="tipePeriode" aria-label="Pilih tipe periode grafik">
                         <option value="semua">Semua</option>
                         <option value="bulan">Bulan</option>
                         <option value="tahun">Tahun</option>
                     </select>
 
                     <div id="rangeBulan">
-                        <input type="month" id="bulanAwal">
-                        <input type="month" id="bulanAkhir">
+                        <input type="month" id="bulanAwal" aria-label="Bulan awal">
+                        <input type="month" id="bulanAkhir" aria-label="Bulan akhir">
                     </div>
 
                     <div id="rangeTahun" hidden>
-                        <input type="number" id="tahunAwal">
-                        <input type="number" id="tahunAkhir">
+                        <input type="number" id="tahunAwal" aria-label="Tahun awal">
+                        <input type="number" id="tahunAkhir" aria-label="Tahun akhir">
                     </div>
                 </div>
 
                 <div class="chart-container">
-                    <canvas id="chartKeuangan"></canvas>
+                    <canvas id="chartKeuangan" aria-label="Grafik keuangan organisasi" role="img"></canvas>
                 </div>
             </section>
             <section>
@@ -173,7 +200,7 @@
             <button id="btnHapusData">Hapus Data</button>
         </div>
     </main>
-    <footer>
+    <footer role="contentinfo">
         <nav>
             <button id="btnBeranda">Beranda</button>
             <button id="btnTransaksi">Transaksi</button>
@@ -185,6 +212,5 @@
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.5.28/dist/jspdf.plugin.autotable.min.js"></script>
     <script src="app.js"></script>
-
 </body>
 </html>
